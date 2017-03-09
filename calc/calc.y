@@ -67,7 +67,8 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2; }
 		;
 
-cmd:	;
+cmd:	PUSH REG			
+		;
 %%
 
 /*
@@ -113,5 +114,8 @@ int yyerror(char *s)
   return yyerror(string(s));
 }
 
-
+struct stack *push()
+{
+	
+}
 
