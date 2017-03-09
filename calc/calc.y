@@ -6,10 +6,12 @@
 int yyerror(char *s);
 int yylex(void);
 int xtoi(char *hexstring);
+void push(int value);
+void pop(int index);
  
 int regToInt(char *reg);
 
-int regArray[24] = {0};
+int regArray[26] = {0};
 int acc = 0;
 
 struct stack {
@@ -60,7 +62,7 @@ input:
 		;
 
 exp:	INTEGER_LITERAL		{ $$ = $1; }
-		|REG				{ $$ = regArray[$1]; }
+		|ref				{ $$ = $1; }
  			
 		| exp MINUS exp		{ $$ = $1 - $3; acc = $$; }
 		| exp PLUS exp		{ $$ = $1 + $3; acc = $$; }
@@ -78,15 +80,15 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
  
 cmd:	SHOW ref			{$$ = $2; cout << "Reg Value: " << $2 << endl; }
 		|LOAD ref REG		{regArray[$3] = $2; }
-		|PUSH ref			{$$ = push($2); }
-		|POP REG			{$$ = pop($2); }
+		|PUSH ref			{ push($2); }
+		|POP REG			{ pop($2); }
 		
 		
 		;
 
 ref:	REG					{$$ = regArray[$1]; }
 		|ACC				{$$ = acc; }
-		|TOP				{$$ = top; }
+		|TOP				{$$ = top->value; }
 		|SIZE				{$$ = size; }
 		;
 
@@ -138,17 +140,16 @@ int yyerror(char *s)
   return yyerror(string(s));
 }
 
-struct stack *push(int value)
+void push(int value)
 {
 	struct stack *temp = new stack;
 	temp->prev = top;
 	temp->value = value;
 	size++;
 	top = temp;
-	return top;
 }
 
-struct stack *pop(int index)
+void pop(int index)
 {
 	if(size > 0){
 		regArray[index] = top->value;

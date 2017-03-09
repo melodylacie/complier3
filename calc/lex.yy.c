@@ -904,7 +904,7 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 55 "calc.lex"
-{ std::cerr << "SCANNER "; yyerror(""); exit(1);	}
+{ std::cerr << "SCANNER "; yyerror(""); 	}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
