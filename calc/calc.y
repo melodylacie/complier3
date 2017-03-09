@@ -88,7 +88,7 @@ cmd:	SHOW ref			{$$ = $2; cout << "Reg Value: " << $2 << endl; }
 
 ref:	REG					{$$ = regArray[$1]; }
 		|ACC				{$$ = acc; }
-		|TOP				{$$ = top->value; }
+		|TOP				{if(size>0) $$ = top->value; else cerr << "ERROR: Stack is Empty!" <<endl; }
 		|SIZE				{$$ = size; }
 		;
 
@@ -162,4 +162,3 @@ void pop(int index)
 		cerr << "ERROR: Stack is Empty!" <<endl;
 	}
 }
-
