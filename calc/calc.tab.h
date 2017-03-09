@@ -46,16 +46,22 @@ extern int yydebug;
   enum yytokentype
   {
     INTEGER_LITERAL = 258,
-    RIGHT_PARENTHESIS = 259,
-    LEFT_PARENTHESIS = 260,
-    PLUS = 261,
-    MINUS = 262,
-    MULT = 263,
-    DIVIDE = 264,
-    MOD = 265,
-    OR = 266,
-    AND = 267,
-    NOT = 268
+    REG = 259,
+    PLUS = 260,
+    MINUS = 261,
+    MULT = 262,
+    DIVIDE = 263,
+    MOD = 264,
+    OR = 265,
+    AND = 266,
+    NOT = 267,
+    ACC = 268,
+    TOP = 269,
+    SIZE = 270,
+    PUSH = 271,
+    POP = 272,
+    SHOW = 273,
+    LOAD = 274
   };
 #endif
 
@@ -64,12 +70,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 12 "calc.y" /* yacc.c:1909  */
+#line 14 "calc.y" /* yacc.c:1909  */
 
   int		int_val;
   string*	op_val;
 
-#line 73 "calc.tab.h" /* yacc.c:1909  */
+#line 79 "calc.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

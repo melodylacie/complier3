@@ -7,7 +7,8 @@
 int yyparse();
 
 int main(int argc, char **argv)
-{	bool temp = true;
+{	
+bool temp = true;
 while(temp){
   if ((argc > 1) && (freopen(argv[1], "r", stdin) == NULL))
   {

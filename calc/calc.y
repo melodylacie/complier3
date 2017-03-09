@@ -6,6 +6,18 @@
 int yyerror(char *s);
 int yylex(void);
 int xtoi(char *hexstring);
+int regToInt(char *reg);
+
+int regArray[24] = {0};
+int top = 0;
+
+struct list_node {
+    struct list_node  *next;
+    value_t           value;
+};
+
+
+
 %}
 
 %union{
@@ -15,10 +27,9 @@ int xtoi(char *hexstring);
 
 %start	input 
 
-%token	<int_val>	INTEGER_LITERAL
-%type	<int_val>	exp
-%type	<op_val>	cmd
-%type	<op_val>	REF
+%token	<int_val>	INTEGER_LITERAL REG
+%type	<int_val>	exp cmd
+
 
 %left	PLUS MINUS
 %left	MULT
@@ -27,17 +38,20 @@ int xtoi(char *hexstring);
 %left	OR
 %left	AND
 %left	NOT
-%left	PUSH
-%left	POP
-%left	SHOW
-%left	LOAD
 
+%left ACC  
+%left TOP  
+%left SIZE  
+%left PUSH  
+%left POP  
+%left SHOW  
+%left LOAD  
 
 %%
 
 input:		
 		| exp	{ cout << "Result: " << $1 << endl; }
-		| cmd
+		| cmd	{ cout << "Reg: " << $1 << endl;}
 		
 		;
 
@@ -57,8 +71,9 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2; }
 		;
 
-cmd:	PUSH REF			{}
-		POP REF				{}
+cmd:	REG			{$$ = $1;}
+		
+		;
 %%
 
 /*
@@ -90,6 +105,24 @@ int xtoi(char *hexstring)
 	return i;
 }
 
+int regToInt(char *reg){
+	return ((int)*(reg+2)) - 65 ;
+}
+///////////////////////////////////////
+
+
+struct list *new_list() {
+    struct list *rv = malloc(sizeof(struct list));
+    rv->head = 0;
+    rv->tail = &rv->head;
+    return rv; }
+void push_back(struct list *list, value_t value) {
+    struct list_node *node = malloc(sizeof(struct list_node));
+    node->next = 0;
+    node->value = value;
+    *list->tail = node;
+    list->tail = &node->next; }
+//////////////////////////////////////
 
 int yyerror(string s)
 {

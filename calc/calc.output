@@ -1,7 +1,12 @@
 Terminals unused in grammar
 
-   RIGHT_PARENTHESIS
-   LEFT_PARENTHESIS
+   ACC
+   TOP
+   SIZE
+   PUSH
+   POP
+   SHOW
+   LOAD
 
 
 Grammar
@@ -10,48 +15,59 @@ Grammar
 
     1 input: %empty
     2      | exp
+    3      | cmd
 
-    3 exp: INTEGER_LITERAL
-    4    | exp MINUS exp
-    5    | exp PLUS exp
-    6    | exp MULT exp
-    7    | exp DIVIDE exp
-    8    | exp MOD exp
-    9    | exp OR exp
-   10    | exp AND exp
-   11    | NOT exp
-   12    | MINUS exp
-   13    | '(' exp ')'
+    4 exp: INTEGER_LITERAL
+    5    | exp MINUS exp
+    6    | exp PLUS exp
+    7    | exp MULT exp
+    8    | exp DIVIDE exp
+    9    | exp MOD exp
+   10    | exp OR exp
+   11    | exp AND exp
+   12    | NOT exp
+   13    | MINUS exp
+   14    | '(' exp ')'
+
+   15 cmd: REG
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 13
-')' (41) 13
+'(' (40) 14
+')' (41) 14
 error (256)
-INTEGER_LITERAL (258) 3
-RIGHT_PARENTHESIS (259)
-LEFT_PARENTHESIS (260)
-PLUS (261) 5
-MINUS (262) 4 12
-MULT (263) 6
-DIVIDE (264) 7
-MOD (265) 8
-OR (266) 9
-AND (267) 10
-NOT (268) 11
+INTEGER_LITERAL (258) 4
+REG (259) 15
+PLUS (260) 6
+MINUS (261) 5 13
+MULT (262) 7
+DIVIDE (263) 8
+MOD (264) 9
+OR (265) 10
+AND (266) 11
+NOT (267) 12
+ACC (268)
+TOP (269)
+SIZE (270)
+PUSH (271)
+POP (272)
+SHOW (273)
+LOAD (274)
 
 
 Nonterminals, with rules where they appear
 
-$accept (16)
+$accept (22)
     on left: 0
-input (17)
-    on left: 1 2, on right: 0
-exp (18)
-    on left: 3 4 5 6 7 8 9 10 11 12 13, on right: 2 4 5 6 7 8 9 10
-    11 12 13
+input (23)
+    on left: 1 2 3, on right: 0
+exp (24)
+    on left: 4 5 6 7 8 9 10 11 12 13 14, on right: 2 5 6 7 8 9 10 11
+    12 13 14
+cmd (25)
+    on left: 15, on right: 3
 
 
 State 0
@@ -59,359 +75,376 @@ State 0
     0 $accept: . input $end
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    REG              shift, and go to state 2
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     $default  reduce using rule 1 (input)
 
-    input  go to state 5
-    exp    go to state 6
+    input  go to state 6
+    exp    go to state 7
+    cmd    go to state 8
 
 
 State 1
 
-    3 exp: INTEGER_LITERAL .
+    4 exp: INTEGER_LITERAL .
 
-    $default  reduce using rule 3 (exp)
+    $default  reduce using rule 4 (exp)
 
 
 State 2
 
-   12 exp: MINUS . exp
+   15 cmd: REG .
 
-    INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
-
-    exp  go to state 7
+    $default  reduce using rule 15 (cmd)
 
 
 State 3
 
-   11 exp: NOT . exp
+   13 exp: MINUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
-
-    exp  go to state 8
-
-
-State 4
-
-   13 exp: '(' . exp ')'
-
-    INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     exp  go to state 9
 
 
+State 4
+
+   12 exp: NOT . exp
+
+    INTEGER_LITERAL  shift, and go to state 1
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
+
+    exp  go to state 10
+
+
 State 5
 
-    0 $accept: input . $end
+   14 exp: '(' . exp ')'
 
-    $end  shift, and go to state 10
+    INTEGER_LITERAL  shift, and go to state 1
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
+
+    exp  go to state 11
 
 
 State 6
 
-    2 input: exp .
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
+    0 $accept: input . $end
 
-    PLUS    shift, and go to state 11
-    MINUS   shift, and go to state 12
-    MULT    shift, and go to state 13
-    DIVIDE  shift, and go to state 14
-    MOD     shift, and go to state 15
-    OR      shift, and go to state 16
-    AND     shift, and go to state 17
-
-    $default  reduce using rule 2 (input)
+    $end  shift, and go to state 12
 
 
 State 7
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
-   12    | MINUS exp .
+    2 input: exp .
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
 
-    MULT    shift, and go to state 13
-    DIVIDE  shift, and go to state 14
-    MOD     shift, and go to state 15
-    OR      shift, and go to state 16
-    AND     shift, and go to state 17
+    PLUS    shift, and go to state 13
+    MINUS   shift, and go to state 14
+    MULT    shift, and go to state 15
+    DIVIDE  shift, and go to state 16
+    MOD     shift, and go to state 17
+    OR      shift, and go to state 18
+    AND     shift, and go to state 19
 
-    $default  reduce using rule 12 (exp)
+    $default  reduce using rule 2 (input)
 
 
 State 8
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
-   11    | NOT exp .
+    3 input: cmd .
 
-    $default  reduce using rule 11 (exp)
+    $default  reduce using rule 3 (input)
 
 
 State 9
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
-   13    | '(' exp . ')'
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
+   13    | MINUS exp .
 
-    PLUS    shift, and go to state 11
-    MINUS   shift, and go to state 12
-    MULT    shift, and go to state 13
-    DIVIDE  shift, and go to state 14
-    MOD     shift, and go to state 15
-    OR      shift, and go to state 16
-    AND     shift, and go to state 17
-    ')'     shift, and go to state 18
+    MULT    shift, and go to state 15
+    DIVIDE  shift, and go to state 16
+    MOD     shift, and go to state 17
+    OR      shift, and go to state 18
+    AND     shift, and go to state 19
+
+    $default  reduce using rule 13 (exp)
 
 
 State 10
+
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
+   12    | NOT exp .
+
+    $default  reduce using rule 12 (exp)
+
+
+State 11
+
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
+   14    | '(' exp . ')'
+
+    PLUS    shift, and go to state 13
+    MINUS   shift, and go to state 14
+    MULT    shift, and go to state 15
+    DIVIDE  shift, and go to state 16
+    MOD     shift, and go to state 17
+    OR      shift, and go to state 18
+    AND     shift, and go to state 19
+    ')'     shift, and go to state 20
+
+
+State 12
 
     0 $accept: input $end .
 
     $default  accept
 
 
-State 11
-
-    5 exp: exp PLUS . exp
-
-    INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
-
-    exp  go to state 19
-
-
-State 12
-
-    4 exp: exp MINUS . exp
-
-    INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
-
-    exp  go to state 20
-
-
 State 13
 
-    6 exp: exp MULT . exp
+    6 exp: exp PLUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     exp  go to state 21
 
 
 State 14
 
-    7 exp: exp DIVIDE . exp
+    5 exp: exp MINUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     exp  go to state 22
 
 
 State 15
 
-    8 exp: exp MOD . exp
+    7 exp: exp MULT . exp
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     exp  go to state 23
 
 
 State 16
 
-    9 exp: exp OR . exp
+    8 exp: exp DIVIDE . exp
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     exp  go to state 24
 
 
 State 17
 
-   10 exp: exp AND . exp
+    9 exp: exp MOD . exp
 
     INTEGER_LITERAL  shift, and go to state 1
-    MINUS            shift, and go to state 2
-    NOT              shift, and go to state 3
-    '('              shift, and go to state 4
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
     exp  go to state 25
 
 
 State 18
 
-   13 exp: '(' exp ')' .
+   10 exp: exp OR . exp
 
-    $default  reduce using rule 13 (exp)
+    INTEGER_LITERAL  shift, and go to state 1
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
+
+    exp  go to state 26
 
 
 State 19
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    5    | exp PLUS exp .
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
+   11 exp: exp AND . exp
 
-    MULT    shift, and go to state 13
-    DIVIDE  shift, and go to state 14
-    MOD     shift, and go to state 15
-    OR      shift, and go to state 16
-    AND     shift, and go to state 17
+    INTEGER_LITERAL  shift, and go to state 1
+    MINUS            shift, and go to state 3
+    NOT              shift, and go to state 4
+    '('              shift, and go to state 5
 
-    $default  reduce using rule 5 (exp)
+    exp  go to state 27
 
 
 State 20
 
-    4 exp: exp . MINUS exp
-    4    | exp MINUS exp .
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
+   14 exp: '(' exp ')' .
 
-    MULT    shift, and go to state 13
-    DIVIDE  shift, and go to state 14
-    MOD     shift, and go to state 15
-    OR      shift, and go to state 16
-    AND     shift, and go to state 17
-
-    $default  reduce using rule 4 (exp)
+    $default  reduce using rule 14 (exp)
 
 
 State 21
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    6    | exp MULT exp .
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    6    | exp PLUS exp .
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
 
-    MOD  shift, and go to state 15
-    OR   shift, and go to state 16
-    AND  shift, and go to state 17
+    MULT    shift, and go to state 15
+    DIVIDE  shift, and go to state 16
+    MOD     shift, and go to state 17
+    OR      shift, and go to state 18
+    AND     shift, and go to state 19
 
     $default  reduce using rule 6 (exp)
 
 
 State 22
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    7    | exp DIVIDE exp .
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
+    5 exp: exp . MINUS exp
+    5    | exp MINUS exp .
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
 
-    MOD  shift, and go to state 15
-    OR   shift, and go to state 16
-    AND  shift, and go to state 17
+    MULT    shift, and go to state 15
+    DIVIDE  shift, and go to state 16
+    MOD     shift, and go to state 17
+    OR      shift, and go to state 18
+    AND     shift, and go to state 19
 
-    $default  reduce using rule 7 (exp)
+    $default  reduce using rule 5 (exp)
 
 
 State 23
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    8    | exp MOD exp .
-    9    | exp . OR exp
-   10    | exp . AND exp
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    7    | exp MULT exp .
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
 
-    OR   shift, and go to state 16
-    AND  shift, and go to state 17
+    DIVIDE  shift, and go to state 16
+    MOD     shift, and go to state 17
+    OR      shift, and go to state 18
+    AND     shift, and go to state 19
 
-    $default  reduce using rule 8 (exp)
+    $default  reduce using rule 7 (exp)
 
 
 State 24
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-    9    | exp OR exp .
-   10    | exp . AND exp
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    8    | exp DIVIDE exp .
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
 
-    AND  shift, and go to state 17
+    MOD  shift, and go to state 17
+    OR   shift, and go to state 18
+    AND  shift, and go to state 19
 
-    $default  reduce using rule 9 (exp)
+    $default  reduce using rule 8 (exp)
 
 
 State 25
 
-    4 exp: exp . MINUS exp
-    5    | exp . PLUS exp
-    6    | exp . MULT exp
-    7    | exp . DIVIDE exp
-    8    | exp . MOD exp
-    9    | exp . OR exp
-   10    | exp . AND exp
-   10    | exp AND exp .
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+    9    | exp MOD exp .
+   10    | exp . OR exp
+   11    | exp . AND exp
+
+    OR   shift, and go to state 18
+    AND  shift, and go to state 19
+
+    $default  reduce using rule 9 (exp)
+
+
+State 26
+
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   10    | exp OR exp .
+   11    | exp . AND exp
+
+    AND  shift, and go to state 19
 
     $default  reduce using rule 10 (exp)
+
+
+State 27
+
+    5 exp: exp . MINUS exp
+    6    | exp . PLUS exp
+    7    | exp . MULT exp
+    8    | exp . DIVIDE exp
+    9    | exp . MOD exp
+   10    | exp . OR exp
+   11    | exp . AND exp
+   11    | exp AND exp .
+
+    $default  reduce using rule 11 (exp)
