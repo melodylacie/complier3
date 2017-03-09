@@ -6,6 +6,7 @@
 int yyerror(char *s);
 int yylex(void);
 int xtoi(char *hexstring);
+ 
 int regToInt(char *reg);
 
 int regArray[24] = {0};
@@ -17,7 +18,7 @@ struct list_node {
 };
 
 
-
+ 
 %}
 
 %union{
@@ -27,9 +28,11 @@ struct list_node {
 
 %start	input 
 
+ 
 %token	<int_val>	INTEGER_LITERAL REG
 %type	<int_val>	exp cmd
 
+ 
 
 %left	PLUS MINUS
 %left	MULT
@@ -71,9 +74,11 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2; }
 		;
 
+ 
 cmd:	REG			{$$ = $1;}
 		
 		;
+ 
 %%
 
 /*
@@ -136,5 +141,6 @@ int yyerror(char *s)
 {
   return yyerror(string(s));
 }
+
 
 
