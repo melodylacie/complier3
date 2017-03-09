@@ -6,7 +6,6 @@
 int yyerror(char *s);
 int yylex(void);
 int xtoi(char *hexstring);
-
 %}
 
 %union{
@@ -18,40 +17,48 @@ int xtoi(char *hexstring);
 
 %token	<int_val>	INTEGER_LITERAL
 %type	<int_val>	exp
+%type	<op_val>	cmd
+%type	<op_val>	REF
 
-%right  RIGHT_PARENTHESIS
-%left   LEFT_PARENTHESIS
 %left	PLUS MINUS
-%left	MULT DIVIDE
+%left	MULT
+%left	DIVIDE
 %left	MOD
 %left	OR
 %left	AND
 %left	NOT
+%left	PUSH
+%left	POP
+%left	SHOW
+%left	LOAD
 
 
 %%
 
 input:		
 		| exp	{ cout << "Result: " << $1 << endl; }
+		| cmd
 		
 		;
 
-exp:	INTEGER_LITERAL	{ $$ = $1; }
+exp:	INTEGER_LITERAL		{ $$ = $1; }
  			
-		| exp MINUS exp	{ $$ = $1 - $3; }
-		| exp PLUS exp	{ $$ = $1 + $3; }
+		| exp MINUS exp		{ $$ = $1 - $3; }
+		| exp PLUS exp		{ $$ = $1 + $3; }
 		
-		| exp MULT exp	{ $$ = $1 * $3; }
+		| exp MULT exp		{ $$ = $1 * $3; }
 		| exp DIVIDE exp	{ $$ = $1 / $3; }
-		| exp MOD exp	{ $$ = $1 % $3; }
-		
-		| exp OR exp	{ $$ = $1 | $3; }
-		| exp AND exp	{ $$ = $1 & $3; }
-		| NOT exp		{ $$ = ~$2; }
-		| MINUS exp		{ $$ = -$2; }
-		| '('  exp ')' { $$ = $2; }
+		| exp MOD exp		{ $$ = $1 % $3; }
+			
+		| exp OR exp		{ $$ = $1 | $3; }
+		| exp AND exp		{ $$ = $1 & $3; }
+		| NOT exp			{ $$ = ~$2; }
+		| MINUS exp			{ $$ = -$2; }
+		| '(' exp ')' 		{ $$ = $2; }
 		;
 
+cmd:	PUSH REF			{}
+		POP REF				{}
 %%
 
 /*
