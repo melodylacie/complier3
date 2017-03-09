@@ -20,6 +20,7 @@ struct stack {
 };
 struct stack *top;
 int size = 0;
+bool topErr = false;
 
  
 %}
@@ -78,18 +79,45 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2;  acc = $$; }
 		;
  
-cmd:	SHOW ref			{$$ = $2; cout << "Reg Value: " << $2 << endl; }
-		|LOAD ref REG		{regArray[$3] = $2; }
-		|PUSH ref			{ push($2); }
+cmd:	SHOW ref			{ 	if(!topErr)
+								{
+									$$ = $2; 
+									cout << "Reg Value: " << $2 << endl; 
+								}else{
+									cerr << "ERROR: Stack is Empty!" <<endl;
+									topErr = false;
+								}
+							}
+									
+		|LOAD ref REG		{ 	if(!topErr)
+								{
+									regArray[$3] = $2;  
+								}else{
+									cerr << "ERROR: Stack is Empty!" <<endl;
+									topErr = false;
+								}
+							}
+		|PUSH ref			{ 	if(!topErr)
+								{
+									push($2);
+								}else{
+									cerr << "ERROR: Stack is Empty!" <<endl;
+									topErr = false;
+								}
+							}
 		|POP REG			{ pop($2); }
 		
 		
 		;
 
-ref:	REG					{$$ = regArray[$1]; }
-		|ACC				{$$ = acc; }
-		|TOP				{if(size>0) $$ = top->value; else cerr << "ERROR: Stack is Empty!" <<endl; }
-		|SIZE				{$$ = size; }
+ref:	REG					{ $$ = regArray[$1]; }
+		|ACC				{ $$ = acc; }
+		|TOP				{	if(size > 0)
+									$$ = top->value;
+								else
+									topErr = true;
+							}
+		|SIZE				{ $$ = size; }
 		;
 
 %%
