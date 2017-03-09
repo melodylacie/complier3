@@ -10,6 +10,7 @@ int xtoi(char *hexstring);
 int regToInt(char *reg);
 
 int regArray[24] = {0};
+int acc = 0;
 
 /*
 int top = 0;
@@ -32,7 +33,7 @@ struct list_node {
 
  
 %token	<int_val>	INTEGER_LITERAL REG
-%type	<int_val>	exp cmd
+%type	<int_val>	exp cmd ref
 
  
 
@@ -60,25 +61,29 @@ input:
 		
 		;
 
-exp:	INTEGER_LITERAL		{ $$ = $1; }
+exp:	INTEGER_LITERAL		{ $$ = $1; acc = $1; }
  			
-		| exp MINUS exp		{ $$ = $1 - $3; }
-		| exp PLUS exp		{ $$ = $1 + $3; }
+		| exp MINUS exp		{ $$ = $1 - $3; acc = $$; }
+		| exp PLUS exp		{ $$ = $1 + $3; acc = $$; }
 		
-		| exp MULT exp		{ $$ = $1 * $3; }
-		| exp DIVIDE exp	{ $$ = $1 / $3; }
-		| exp MOD exp		{ $$ = $1 % $3; }
+		| exp MULT exp		{ $$ = $1 * $3; acc = $$; }
+		| exp DIVIDE exp	{ $$ = $1 / $3; acc = $$; }
+		| exp MOD exp		{ $$ = $1 % $3; acc = $$; }
 			
-		| exp OR exp		{ $$ = $1 | $3; }
-		| exp AND exp		{ $$ = $1 & $3; }
-		| NOT exp			{ $$ = ~$2; }
-		| MINUS exp			{ $$ = -$2; }
-		| '(' exp ')' 		{ $$ = $2; }
+		| exp OR exp		{ $$ = $1 | $3; acc = $$; }
+		| exp AND exp		{ $$ = $1 & $3; acc = $$;}
+		| NOT exp			{ $$ = ~$2; acc = $$; }
+		| MINUS exp			{ $$ = -$2; acc = $$; }
+		| '(' exp ')' 		{ $$ = $2;  acc = $$; }
 		;
  
-cmd:	REG			{$$ = $1; }
-		|LOAD cmd cmd		{regArray[$2] = regArray[$3]; $$ =regArray[$2] ; }
+cmd:	SHOW ref			{$$ = $2; }
+		|LOAD ref ref		{regArray[$2] = regArray[$3]; $$ =regArray[$2] ; }
 		
+		;
+
+ref		REG						{$$ = regArray[$1]; }
+		|ACC					{$$ = acc; }
 		;
 
 %%
