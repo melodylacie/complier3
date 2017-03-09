@@ -39,7 +39,7 @@ E			[Ee][+-]?{D}+
 "("				{ yylval.op_val = new std::string(yytext); return '(' ; }
 ")"				{ yylval.op_val = new std::string(yytext); return ')' ; }
 
-$r[A-Z]			{ yylval.int_val = regToInt(yytext); return REG ; }
+$r[A-Z]			{ yylval.int_val = getRec(regToInt(yytext)); return REG ; }
 "$acc"			{ yylval.op_val = new std::string(yytext); return ACC ; }
 "$top"			{ yylval.op_val = new std::string(yytext); return TOP ; }
 "$size"			{ yylval.op_val = new std::string(yytext); return SIZE ; }

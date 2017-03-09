@@ -10,6 +10,7 @@ int xtoi(char *hexstring);
 int regToInt(char *reg);
 
 int regArray[24] = {0};
+regArray[3]	= 5;
 int top = 0;
 
 struct list_node {
@@ -74,7 +75,8 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2; }
 		;
  
-cmd:	REG			{$$ = $1;}
+cmd:	SHOW REG			{$$ = $1; }
+		LOAD REG REG		{$3 = $1; }
 		
 		;
 
@@ -111,6 +113,9 @@ int xtoi(char *hexstring)
 
 int regToInt(char *reg){
 	return ((int)*(reg+2)) - 65 ;
+}
+int getReg(int index){
+	return regArray[((int)*(reg+2)) - 65];
 }
 ///////////////////////////////////////
 
