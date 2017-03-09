@@ -61,7 +61,8 @@ input:
 		
 		;
 
-exp:	INTEGER_LITERAL		{ $$ = $1; acc = $1; }
+exp:	INTEGER_LITERAL		{ $$ = $1;                   }
+		|REG					{ $$ = regArray[$1];}
  			
 		| exp MINUS exp		{ $$ = $1 - $3; acc = $$; }
 		| exp PLUS exp		{ $$ = $1 + $3; acc = $$; }
@@ -78,11 +79,11 @@ exp:	INTEGER_LITERAL		{ $$ = $1; acc = $1; }
 		;
  
 cmd:	SHOW ref			{$$ = $2; }
-		|LOAD ref ref		{regArray[$2] = regArray[$3]; $$ =regArray[$2] ; }
+		|LOAD ref REG		{regArray[$3] = $2; }
 		
 		;
 
-ref		REG						{$$ = regArray[$1]; }
+ref:	REG						{$$ = regArray[$1]; }
 		|ACC					{$$ = acc; }
 		;
 
