@@ -55,39 +55,39 @@ int size = 0;
 
 input:		
 		| exp	{ cout << "Result: " << $1 << endl; }
-		| cmd	{ cout << "Reg: " << $1 << endl;}
+		| cmd	{;}
 		
 		;
 
-exp:	INTEGER_LITERAL		{ $$ = $1;                  }
-		|REG				{ $$ = regArray[$1];		}
+exp:	INTEGER_LITERAL		{ $$ = $1; }
+		|REG				{ $$ = regArray[$1]; }
  			
-		| exp MINUS exp		{ $$ = $1 - $3; acc = $$;	}
-		| exp PLUS exp		{ $$ = $1 + $3; acc = $$;	}
+		| exp MINUS exp		{ $$ = $1 - $3; acc = $$; }
+		| exp PLUS exp		{ $$ = $1 + $3; acc = $$; }
 		
-		| exp MULT exp		{ $$ = $1 * $3; acc = $$;	}
-		| exp DIVIDE exp	{ $$ = $1 / $3; acc = $$;	}
-		| exp MOD exp		{ $$ = $1 % $3; acc = $$;	}
+		| exp MULT exp		{ $$ = $1 * $3; acc = $$; }
+		| exp DIVIDE exp	{ $$ = $1 / $3; acc = $$; }
+		| exp MOD exp		{ $$ = $1 % $3; acc = $$; }
 			
-		| exp OR exp		{ $$ = $1 | $3; acc = $$;	}
-		| exp AND exp		{ $$ = $1 & $3; acc = $$;	}
-		| NOT exp			{ $$ = ~$2; acc = $$; 		}
-		| MINUS exp			{ $$ = -$2; acc = $$; 		}
-		| '(' exp ')' 		{ $$ = $2;  acc = $$; 		}
+		| exp OR exp		{ $$ = $1 | $3; acc = $$; }
+		| exp AND exp		{ $$ = $1 & $3; acc = $$; }
+		| NOT exp			{ $$ = ~$2; acc = $$; }
+		| MINUS exp			{ $$ = -$2; acc = $$; }
+		| '(' exp ')' 		{ $$ = $2;  acc = $$; }
 		;
  
-cmd:	SHOW ref			{$$ = $2; 					}
-		|LOAD ref REG		{regArray[$3] = $2; 		}
-		|PUSH ref			{$$ = push($2); 			}
-		|POP REG			{$$ = pop($2); 				}
+cmd:	SHOW ref			{$$ = $2; cout << "Reg Value: " << $2 << endl; }
+		|LOAD ref REG		{regArray[$3] = $2; }
+		|PUSH ref			{$$ = push($2); }
+		|POP REG			{$$ = pop($2); }
 		
 		
 		;
 
-ref:	REG					{$$ = regArray[$1]; 		}
-		|ACC				{$$ = acc; 					}
-		|TOP				{$$ = top; 					}
-		|SIZE				{$$ = size; 				}
+ref:	REG					{$$ = regArray[$1]; }
+		|ACC				{$$ = acc; }
+		|TOP				{$$ = top; }
+		|SIZE				{$$ = size; }
 		;
 
 %%
