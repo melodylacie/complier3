@@ -12,14 +12,12 @@ int regToInt(char *reg);
 int regArray[24] = {0};
 int acc = 0;
 
-/*
-int top = 0;
-
-struct list_node {
-    struct list_node  *next;
-    value_t           value;
+struct stack {
+    struct stack *prev;
+    int     value;
 };
-*/
+struct stack *top;
+int size = 0;
 
  
 %}
@@ -61,30 +59,35 @@ input:
 		
 		;
 
-exp:	INTEGER_LITERAL		{ $$ = $1;                   }
-		|REG					{ $$ = regArray[$1];}
+exp:	INTEGER_LITERAL		{ $$ = $1;                  }
+		|REG				{ $$ = regArray[$1];		}
  			
-		| exp MINUS exp		{ $$ = $1 - $3; acc = $$; }
-		| exp PLUS exp		{ $$ = $1 + $3; acc = $$; }
+		| exp MINUS exp		{ $$ = $1 - $3; acc = $$;	}
+		| exp PLUS exp		{ $$ = $1 + $3; acc = $$;	}
 		
-		| exp MULT exp		{ $$ = $1 * $3; acc = $$; }
-		| exp DIVIDE exp	{ $$ = $1 / $3; acc = $$; }
-		| exp MOD exp		{ $$ = $1 % $3; acc = $$; }
+		| exp MULT exp		{ $$ = $1 * $3; acc = $$;	}
+		| exp DIVIDE exp	{ $$ = $1 / $3; acc = $$;	}
+		| exp MOD exp		{ $$ = $1 % $3; acc = $$;	}
 			
-		| exp OR exp		{ $$ = $1 | $3; acc = $$; }
-		| exp AND exp		{ $$ = $1 & $3; acc = $$;}
-		| NOT exp			{ $$ = ~$2; acc = $$; }
-		| MINUS exp			{ $$ = -$2; acc = $$; }
-		| '(' exp ')' 		{ $$ = $2;  acc = $$; }
+		| exp OR exp		{ $$ = $1 | $3; acc = $$;	}
+		| exp AND exp		{ $$ = $1 & $3; acc = $$;	}
+		| NOT exp			{ $$ = ~$2; acc = $$; 		}
+		| MINUS exp			{ $$ = -$2; acc = $$; 		}
+		| '(' exp ')' 		{ $$ = $2;  acc = $$; 		}
 		;
  
-cmd:	SHOW ref			{$$ = $2; }
-		|LOAD ref REG		{regArray[$3] = $2; }
+cmd:	SHOW ref			{$$ = $2; 					}
+		|LOAD ref REG		{regArray[$3] = $2; 		}
+		|PUSH ref			{$$ = push($2); 			}
+		|POP REG			{$$ = pop($2); 				}
+		
 		
 		;
 
-ref:	REG						{$$ = regArray[$1]; }
-		|ACC					{$$ = acc; }
+ref:	REG					{$$ = regArray[$1]; 		}
+		|ACC				{$$ = acc; 					}
+		|TOP				{$$ = top; 					}
+		|SIZE				{$$ = size; 				}
 		;
 
 %%
@@ -121,24 +124,6 @@ int xtoi(char *hexstring)
 int regToInt(char *reg){
 	return ((int)*(reg+2)) - 65 ;
 }
-int getReg(int index){
-	return regArray[index];
-}
-/*
-
-
-struct list *new_list() {
-    struct list *rv = malloc(sizeof(struct list));
-    rv->head = 0;
-    rv->tail = &rv->head;
-    return rv; }
-void push_back(struct list *list, value_t value) {
-    struct list_node *node = malloc(sizeof(struct list_node));
-    node->next = 0;
-    node->value = value;
-    *list->tail = node;
-    list->tail = &node->next; }
-*/
 
 int yyerror(string s)
 {
@@ -153,8 +138,27 @@ int yyerror(char *s)
   return yyerror(string(s));
 }
 
-struct stack *push()
+struct stack *push(int value)
 {
-	
+	struct stack *temp = new stack;
+	temp->prev = top;
+	temp->value = value;
+	size++;
+	top = temp;
+	return top;
+}
+
+struct stack *pop(int index)
+{
+	if(size > 0){
+		regArray[index] = top->value;
+		struct stack *temp;
+		temp = top;
+		top = top->prev;
+		delete(temp);
+		size--;
+	}else{
+		cerr << "ERROR: Stack is Empty!" <<endl;
+	}
 }
 
