@@ -7,8 +7,9 @@
 
 int yyerror(char *s);
 int xtoi(char *hexstring);
+int regToInt(char *reg);
 
-enum {REF, REG, ACC, TOP, SIZE}; 
+
 %}
 
 digit		[0-9]
@@ -38,9 +39,9 @@ E			[Ee][+-]?{D}+
 "("				{ yylval.op_val = new std::string(yytext); return '(' ; }
 ")"				{ yylval.op_val = new std::string(yytext); return ')' ; }
 
-$r[A-Z]			{ yylval.op_val = new std::string(yytext); return REG ; }
+$r[A-Z]			{ yylval.int_val = regToInt(yytext); return REG ; }
 "$acc"			{ yylval.op_val = new std::string(yytext); return ACC ; }
-"&top"			{ yylval.op_val = new std::string(yytext); return TOP ; }
+"$top"			{ yylval.op_val = new std::string(yytext); return TOP ; }
 "$size"			{ yylval.op_val = new std::string(yytext); return SIZE ; }
 "PUSH"			{ yylval.op_val = new std::string(yytext); return PUSH ; }
 "POP"			{ yylval.op_val = new std::string(yytext); return POP ; }
