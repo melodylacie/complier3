@@ -853,7 +853,7 @@ YY_RULE_SETUP
 case 13:
 YY_RULE_SETUP
 #line 42 "calc.lex"
-{ yylval.int_val = regToInt(yytext); return REG ; }
+{ yylval.int_val = (regToInt(yytext)); return REG ; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP

@@ -10,14 +10,15 @@ int xtoi(char *hexstring);
 int regToInt(char *reg);
 
 int regArray[24] = {0};
-regArray[3]	= 5;
+
+/*
 int top = 0;
 
 struct list_node {
     struct list_node  *next;
     value_t           value;
 };
-
+*/
 
  
 %}
@@ -75,8 +76,8 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2; }
 		;
  
-cmd:	SHOW REG			{$$ = $1; }
-		LOAD REG REG		{$3 = $1; }
+cmd:	REG			{$$ = $1; }
+		|LOAD cmd cmd		{regArray[$2] = regArray[$3]; $$ =regArray[$2] ; }
 		
 		;
 
@@ -115,9 +116,9 @@ int regToInt(char *reg){
 	return ((int)*(reg+2)) - 65 ;
 }
 int getReg(int index){
-	return regArray[((int)*(reg+2)) - 65];
+	return regArray[index];
 }
-///////////////////////////////////////
+/*
 
 
 struct list *new_list() {
@@ -131,7 +132,7 @@ void push_back(struct list *list, value_t value) {
     node->value = value;
     *list->tail = node;
     list->tail = &node->next; }
-//////////////////////////////////////
+*/
 
 int yyerror(string s)
 {
