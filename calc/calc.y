@@ -6,6 +6,17 @@
 int yyerror(char *s);
 int yylex(void);
 int xtoi(char *hexstring);
+
+struct stack{
+	struct stack *prev;
+	int	value;
+};
+struct stack *tail = new stack;
+tail->prev = 0;
+tail->value = 0;
+struct stack *top;
+top = tail;
+int size = 0;
 %}
 
 %union{
@@ -18,7 +29,6 @@ int xtoi(char *hexstring);
 %token	<int_val>	INTEGER_LITERAL
 %type	<int_val>	exp
 %type	<op_val>	cmd
-%type	<op_val>	REF
 
 %left	PLUS MINUS
 %left	MULT
@@ -57,8 +67,7 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 		| '(' exp ')' 		{ $$ = $2; }
 		;
 
-cmd:	PUSH REF			{}
-		POP REF				{}
+cmd:	;
 %%
 
 /*
@@ -103,5 +112,6 @@ int yyerror(char *s)
 {
   return yyerror(string(s));
 }
+
 
 
