@@ -50,4 +50,4 @@ $r[A-Z]			{ yylval.int_val = (regToInt(yytext)); return REG ; }
 [\n]		{ return NULL ;}
 
 
-.		{ std::cerr << "SCANNER "; yyerror(""); 	}
+.		{ std::cerr << "SCANNER "; yyerror(yytext); 	}

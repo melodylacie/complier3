@@ -78,14 +78,14 @@ State 0
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    PUSH             shift, and go to state 8
-    POP              shift, and go to state 9
-    SHOW             shift, and go to state 10
-    LOAD             shift, and go to state 11
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
+    PUSH             shift, and go to state 9
+    POP              shift, and go to state 10
+    SHOW             shift, and go to state 11
+    LOAD             shift, and go to state 12
 
     $default  reduce using rule 1 (input)
 
@@ -117,10 +117,10 @@ State 3
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 17
     ref  go to state 16
@@ -134,10 +134,10 @@ State 4
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 18
     ref  go to state 16
@@ -145,83 +145,83 @@ State 4
 
 State 5
 
-   21 ref: ACC .
-
-    $default  reduce using rule 21 (ref)
-
-
-State 6
-
-   22 ref: TOP .
-
-    $default  reduce using rule 22 (ref)
-
-
-State 7
-
-   23 ref: SIZE .
-
-    $default  reduce using rule 23 (ref)
-
-
-State 8
-
-   18 cmd: PUSH . ref
-
-    REG   shift, and go to state 2
-    ACC   shift, and go to state 5
-    TOP   shift, and go to state 6
-    SIZE  shift, and go to state 7
-
-    ref  go to state 19
-
-
-State 9
-
-   19 cmd: POP . REG
-
-    REG  shift, and go to state 20
-
-
-State 10
-
-   16 cmd: SHOW . ref
-
-    REG   shift, and go to state 2
-    ACC   shift, and go to state 5
-    TOP   shift, and go to state 6
-    SIZE  shift, and go to state 7
-
-    ref  go to state 21
-
-
-State 11
-
-   17 cmd: LOAD . ref REG
-
-    REG   shift, and go to state 2
-    ACC   shift, and go to state 5
-    TOP   shift, and go to state 6
-    SIZE  shift, and go to state 7
-
-    ref  go to state 22
-
-
-State 12
-
    15 exp: '(' . exp ')'
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
-    exp  go to state 23
+    exp  go to state 19
     ref  go to state 16
+
+
+State 6
+
+   21 ref: ACC .
+
+    $default  reduce using rule 21 (ref)
+
+
+State 7
+
+   22 ref: TOP .
+
+    $default  reduce using rule 22 (ref)
+
+
+State 8
+
+   23 ref: SIZE .
+
+    $default  reduce using rule 23 (ref)
+
+
+State 9
+
+   18 cmd: PUSH . ref
+
+    REG   shift, and go to state 2
+    ACC   shift, and go to state 6
+    TOP   shift, and go to state 7
+    SIZE  shift, and go to state 8
+
+    ref  go to state 20
+
+
+State 10
+
+   19 cmd: POP . REG
+
+    REG  shift, and go to state 21
+
+
+State 11
+
+   16 cmd: SHOW . ref
+
+    REG   shift, and go to state 2
+    ACC   shift, and go to state 6
+    TOP   shift, and go to state 7
+    SIZE  shift, and go to state 8
+
+    ref  go to state 22
+
+
+State 12
+
+   17 cmd: LOAD . ref REG
+
+    REG   shift, and go to state 2
+    ACC   shift, and go to state 6
+    TOP   shift, and go to state 7
+    SIZE  shift, and go to state 8
+
+    ref  go to state 23
 
 
 State 13
@@ -303,34 +303,6 @@ State 18
 
 State 19
 
-   18 cmd: PUSH ref .
-
-    $default  reduce using rule 18 (cmd)
-
-
-State 20
-
-   19 cmd: POP REG .
-
-    $default  reduce using rule 19 (cmd)
-
-
-State 21
-
-   16 cmd: SHOW ref .
-
-    $default  reduce using rule 16 (cmd)
-
-
-State 22
-
-   17 cmd: LOAD ref . REG
-
-    REG  shift, and go to state 32
-
-
-State 23
-
     6 exp: exp . MINUS exp
     7    | exp . PLUS exp
     8    | exp . MULT exp
@@ -347,7 +319,35 @@ State 23
     MOD     shift, and go to state 29
     OR      shift, and go to state 30
     AND     shift, and go to state 31
-    ')'     shift, and go to state 33
+    ')'     shift, and go to state 32
+
+
+State 20
+
+   18 cmd: PUSH ref .
+
+    $default  reduce using rule 18 (cmd)
+
+
+State 21
+
+   19 cmd: POP REG .
+
+    $default  reduce using rule 19 (cmd)
+
+
+State 22
+
+   16 cmd: SHOW ref .
+
+    $default  reduce using rule 16 (cmd)
+
+
+State 23
+
+   17 cmd: LOAD ref . REG
+
+    REG  shift, and go to state 33
 
 
 State 24
@@ -365,10 +365,10 @@ State 25
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 34
     ref  go to state 16
@@ -382,10 +382,10 @@ State 26
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 35
     ref  go to state 16
@@ -399,10 +399,10 @@ State 27
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 36
     ref  go to state 16
@@ -416,10 +416,10 @@ State 28
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 37
     ref  go to state 16
@@ -433,10 +433,10 @@ State 29
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 38
     ref  go to state 16
@@ -450,10 +450,10 @@ State 30
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 39
     ref  go to state 16
@@ -467,10 +467,10 @@ State 31
     REG              shift, and go to state 2
     MINUS            shift, and go to state 3
     NOT              shift, and go to state 4
-    ACC              shift, and go to state 5
-    TOP              shift, and go to state 6
-    SIZE             shift, and go to state 7
-    '('              shift, and go to state 12
+    '('              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
 
     exp  go to state 40
     ref  go to state 16
@@ -478,16 +478,16 @@ State 31
 
 State 32
 
-   17 cmd: LOAD ref REG .
+   15 exp: '(' exp ')' .
 
-    $default  reduce using rule 17 (cmd)
+    $default  reduce using rule 15 (exp)
 
 
 State 33
 
-   15 exp: '(' exp ')' .
+   17 cmd: LOAD ref REG .
 
-    $default  reduce using rule 15 (exp)
+    $default  reduce using rule 17 (cmd)
 
 
 State 34

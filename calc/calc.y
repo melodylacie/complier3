@@ -47,6 +47,8 @@ bool calErr	= false;
 %left	OR
 %left	AND
 %left	NOT
+%left   '('
+%right  ')'
 
 %left ACC  
 %left TOP  
@@ -60,29 +62,33 @@ bool calErr	= false;
 
 input:		
 		| exp	{ if(!calErr)
-					cout << "Result: " << $1 << endl; 
+					{
+					 cout << "Result: " << $1 << endl; 
+					 acc = $1;
+					}					 
 				  else
 					calErr = false;
 				}
 		| cmd	{;}
 		
 		;
+		
 
 exp:	INTEGER_LITERAL		{ $$ = $1; }
 		|ref				{ $$ = $1; }
  			
-		| exp MINUS exp		{ $$ = $1 - $3; acc = $$; }
-		| exp PLUS exp		{ $$ = $1 + $3; acc = $$; }
+		| exp MINUS exp		{ $$ = $1 - $3; }
+		| exp PLUS exp		{ $$ = $1 + $3; }
 		
-		| exp MULT exp		{ $$ = $1 * $3; acc = $$; }
-		| exp DIVIDE exp	{ $$ = $1 / $3; acc = $$; }
-		| exp MOD exp		{ $$ = $1 % $3; acc = $$; }
+		| exp MULT exp		{ $$ = $1 * $3; }
+		| exp DIVIDE exp	{ $$ = $1 / $3; }
+		| exp MOD exp		{ $$ = $1 % $3; }
 			
-		| exp OR exp		{ $$ = $1 | $3; acc = $$; }
-		| exp AND exp		{ $$ = $1 & $3; acc = $$; }
-		| NOT exp			{ $$ = ~$2; acc = $$; }
-		| MINUS exp			{ $$ = -$2; acc = $$; }
-		| '(' exp ')' 		{ $$ = $2;  acc = $$; }
+		| exp OR exp		{ $$ = $1 | $3; }
+		| exp AND exp		{ $$ = $1 & $3; }
+		| NOT exp			{ $$ = ~$2; }
+		| MINUS exp			{ $$ = -$2; }
+		| '(' exp ')' 		{ $$ = $2; }
 		;
  
 cmd:	SHOW ref			{ 	if(!topErr)
@@ -152,13 +158,14 @@ int yyerror(string s)
 {
   extern char *yytext;	// defined and maintained in lex.c
   
-  cerr << "ERROR: " << s << " at symbol \"" << yytext;
+  cerr << "ERROR: " << s << endl;
   calErr = true;
   return 0;
 }
 
 int yyerror(char *s)
 {
+  calErr = true;
   return yyerror(string(s));
 }
 

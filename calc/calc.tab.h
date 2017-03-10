@@ -70,7 +70,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 27 "calc.y" /* yacc.c:1909  */
+#line 30 "calc.y" /* yacc.c:1909  */
 
   int		int_val;
   string*	op_val;

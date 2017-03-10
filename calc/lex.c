@@ -730,7 +730,7 @@ YY_DECL
 		}
 
 	{
-#line 23 "calc.lex"
+#line 21 "calc.lex"
 
 
 #line 737 "lex.yy.c"
@@ -792,123 +792,123 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 25 "calc.lex"
+#line 23 "calc.lex"
 { yylval.int_val = atoi(yytext); return INTEGER_LITERAL; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 28 "calc.lex"
+#line 26 "calc.lex"
 { yylval.int_val = xtoi(yytext); return INTEGER_LITERAL;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 30 "calc.lex"
+#line 28 "calc.lex"
 { yylval.op_val = new std::string(yytext); return AND; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 31 "calc.lex"
+#line 29 "calc.lex"
 { yylval.op_val = new std::string(yytext); return OR; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "calc.lex"
+#line 30 "calc.lex"
 { yylval.op_val = new std::string(yytext); return NOT; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 34 "calc.lex"
+#line 32 "calc.lex"
 { yylval.op_val = new std::string(yytext); return PLUS; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "calc.lex"
+#line 33 "calc.lex"
 { yylval.op_val = new std::string(yytext); return MINUS; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 36 "calc.lex"
+#line 34 "calc.lex"
 { yylval.op_val = new std::string(yytext); return MULT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 37 "calc.lex"
+#line 35 "calc.lex"
 { yylval.op_val = new std::string(yytext); return DIVIDE ; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 38 "calc.lex"
+#line 36 "calc.lex"
 { yylval.op_val = new std::string(yytext); return MOD ; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "calc.lex"
+#line 37 "calc.lex"
 { yylval.op_val = new std::string(yytext); return '(' ; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 40 "calc.lex"
+#line 38 "calc.lex"
 { yylval.op_val = new std::string(yytext); return ')' ; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 42 "calc.lex"
+#line 40 "calc.lex"
 { yylval.int_val = (regToInt(yytext)); return REG ; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 43 "calc.lex"
+#line 41 "calc.lex"
 { yylval.op_val = new std::string(yytext); return ACC ; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 44 "calc.lex"
+#line 42 "calc.lex"
 { yylval.op_val = new std::string(yytext); return TOP ; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 45 "calc.lex"
+#line 43 "calc.lex"
 { yylval.op_val = new std::string(yytext); return SIZE ; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 46 "calc.lex"
+#line 44 "calc.lex"
 { yylval.op_val = new std::string(yytext); return PUSH ; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 47 "calc.lex"
+#line 45 "calc.lex"
 { yylval.op_val = new std::string(yytext); return POP ; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 48 "calc.lex"
+#line 46 "calc.lex"
 { yylval.op_val = new std::string(yytext); return SHOW ; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 49 "calc.lex"
+#line 47 "calc.lex"
 { yylval.op_val = new std::string(yytext); return LOAD ; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 51 "calc.lex"
+#line 49 "calc.lex"
 {}
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 52 "calc.lex"
+#line 50 "calc.lex"
 { return NULL ;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 55 "calc.lex"
-{ std::cerr << "SCANNER "; yyerror(""); 	}
+#line 53 "calc.lex"
+{ std::cerr << "SCANNER "; yyerror(yytext); 	}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 56 "calc.lex"
+#line 54 "calc.lex"
 ECHO;
 	YY_BREAK
 #line 915 "lex.yy.c"
@@ -1912,4 +1912,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 56 "calc.lex"
+#line 54 "calc.lex"
