@@ -76,9 +76,9 @@ State 0
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -111,13 +111,13 @@ State 2
 
 State 3
 
-   14 exp: MINUS . exp
+   15 exp: '(' . exp ')'
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -128,13 +128,13 @@ State 3
 
 State 4
 
-   13 exp: NOT . exp
+   14 exp: MINUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -145,13 +145,13 @@ State 4
 
 State 5
 
-   15 exp: '(' . exp ')'
+   13 exp: NOT . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -276,15 +276,16 @@ State 17
    10    | exp . MOD exp
    11    | exp . OR exp
    12    | exp . AND exp
-   14    | MINUS exp .
+   15    | '(' exp . ')'
 
+    ')'     shift, and go to state 32
+    PLUS    shift, and go to state 25
+    MINUS   shift, and go to state 26
     MULT    shift, and go to state 27
     DIVIDE  shift, and go to state 28
     MOD     shift, and go to state 29
     OR      shift, and go to state 30
     AND     shift, and go to state 31
-
-    $default  reduce using rule 14 (exp)
 
 
 State 18
@@ -296,9 +297,15 @@ State 18
    10    | exp . MOD exp
    11    | exp . OR exp
    12    | exp . AND exp
-   13    | NOT exp .
+   14    | MINUS exp .
 
-    $default  reduce using rule 13 (exp)
+    MULT    shift, and go to state 27
+    DIVIDE  shift, and go to state 28
+    MOD     shift, and go to state 29
+    OR      shift, and go to state 30
+    AND     shift, and go to state 31
+
+    $default  reduce using rule 14 (exp)
 
 
 State 19
@@ -310,16 +317,9 @@ State 19
    10    | exp . MOD exp
    11    | exp . OR exp
    12    | exp . AND exp
-   15    | '(' exp . ')'
+   13    | NOT exp .
 
-    PLUS    shift, and go to state 25
-    MINUS   shift, and go to state 26
-    MULT    shift, and go to state 27
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
-    ')'     shift, and go to state 32
+    $default  reduce using rule 13 (exp)
 
 
 State 20
@@ -363,9 +363,9 @@ State 25
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -380,9 +380,9 @@ State 26
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -397,9 +397,9 @@ State 27
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -414,9 +414,9 @@ State 28
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -431,9 +431,9 @@ State 29
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -448,9 +448,9 @@ State 30
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8
@@ -465,9 +465,9 @@ State 31
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
-    MINUS            shift, and go to state 3
-    NOT              shift, and go to state 4
-    '('              shift, and go to state 5
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
     ACC              shift, and go to state 6
     TOP              shift, and go to state 7
     SIZE             shift, and go to state 8

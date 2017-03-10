@@ -35,7 +35,7 @@ bool calErr	= false;
 %start	input 
 
  
-%token	<int_val>	INTEGER_LITERAL REG
+%token	<int_val>	INTEGER_LITERAL REG '(' ')'
 %type	<int_val>	exp cmd ref
 
  
@@ -47,8 +47,6 @@ bool calErr	= false;
 %left	OR
 %left	AND
 %left	NOT
-%left   '('
-%right  ')'
 
 %left ACC  
 %left TOP  
@@ -57,20 +55,21 @@ bool calErr	= false;
 %left POP  
 %left SHOW  
 %left LOAD
-%left NULL  
+ 
 
 %%
 
 input:		
-		| exp NULL	{ if(!calErr)
+		| exp 	{ if(!calErr)
 					{
 					 cout << "Result: " << $1 << endl; 
 					 acc = $1;
+					 calErr = false;
 					}					 
 				  else
 					calErr = false;
 				}
-		| cmd NULL	{;}
+		| cmd 	{;}
 		
 		;
 		
