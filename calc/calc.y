@@ -19,7 +19,10 @@ struct stack {
 };
 struct stack *top;
 int size = 0;
+
+/*-------------ERROR FLAG-------------*/
 bool topErr = false;
+bool calErr	= false;
 
  
 %}
@@ -56,7 +59,11 @@ bool topErr = false;
 %%
 
 input:		
-		| exp	{ cout << "Result: " << $1 << endl; }
+		| exp	{ if(!calErr)
+					cout << "Result: " << $1 << endl; 
+				  else
+					calErr = false;
+				}
 		| cmd	{;}
 		
 		;
@@ -81,7 +88,7 @@ exp:	INTEGER_LITERAL		{ $$ = $1; }
 cmd:	SHOW ref			{ 	if(!topErr)
 								{
 									$$ = $2; 
-									cout << "Reg Value: " << $2 << endl; 
+									cout << "Value: " << $2 << endl; 
 								}else{
 									cerr << "ERROR: Stack is Empty!" <<endl;
 									topErr = false;
@@ -146,6 +153,7 @@ int yyerror(string s)
   extern char *yytext;	// defined and maintained in lex.c
   
   cerr << "ERROR: " << s << " at symbol \"" << yytext;
+  calErr = true;
   return 0;
 }
 
