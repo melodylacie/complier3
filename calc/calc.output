@@ -5,54 +5,56 @@ Grammar
     1 input: %empty
     2      | exp
     3      | cmd
+    4      | exp '('
+    5      | exp ')'
 
-    4 exp: INTEGER_LITERAL
-    5    | ref
-    6    | exp MINUS exp
-    7    | exp PLUS exp
-    8    | exp MULT exp
-    9    | exp DIVIDE exp
-   10    | exp MOD exp
-   11    | exp OR exp
-   12    | exp AND exp
-   13    | NOT exp
-   14    | MINUS exp
-   15    | '(' exp ')'
+    6 exp: INTEGER_LITERAL
+    7    | ref
+    8    | exp MINUS exp
+    9    | exp PLUS exp
+   10    | exp MULT exp
+   11    | exp DIVIDE exp
+   12    | exp MOD exp
+   13    | exp OR exp
+   14    | exp AND exp
+   15    | NOT exp
+   16    | MINUS exp
+   17    | '(' exp ')'
 
-   16 cmd: SHOW ref
-   17    | LOAD ref REG
-   18    | PUSH ref
-   19    | POP REG
+   18 cmd: SHOW ref
+   19    | LOAD ref REG
+   20    | PUSH ref
+   21    | POP REG
 
-   20 ref: REG
-   21    | ACC
-   22    | TOP
-   23    | SIZE
+   22 ref: REG
+   23    | ACC
+   24    | TOP
+   25    | SIZE
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 15
-')' (41) 15
+'(' (40) 4 17
+')' (41) 5 17
 error (256)
-INTEGER_LITERAL (258) 4
-REG (259) 17 19 20
-PLUS (260) 7
-MINUS (261) 6 14
-MULT (262) 8
-DIVIDE (263) 9
-MOD (264) 10
-OR (265) 11
-AND (266) 12
-NOT (267) 13
-ACC (268) 21
-TOP (269) 22
-SIZE (270) 23
-PUSH (271) 18
-POP (272) 19
-SHOW (273) 16
-LOAD (274) 17
+INTEGER_LITERAL (258) 6
+REG (259) 19 21 22
+PLUS (260) 9
+MINUS (261) 8 16
+MULT (262) 10
+DIVIDE (263) 11
+MOD (264) 12
+OR (265) 13
+AND (266) 14
+NOT (267) 15
+ACC (268) 23
+TOP (269) 24
+SIZE (270) 25
+PUSH (271) 20
+POP (272) 21
+SHOW (273) 18
+LOAD (274) 19
 
 
 Nonterminals, with rules where they appear
@@ -60,14 +62,14 @@ Nonterminals, with rules where they appear
 $accept (22)
     on left: 0
 input (23)
-    on left: 1 2 3, on right: 0
+    on left: 1 2 3 4 5, on right: 0
 exp (24)
-    on left: 4 5 6 7 8 9 10 11 12 13 14 15, on right: 2 6 7 8 9 10
-    11 12 13 14 15
+    on left: 6 7 8 9 10 11 12 13 14 15 16 17, on right: 2 4 5 8 9 10
+    11 12 13 14 15 16 17
 cmd (25)
-    on left: 16 17 18 19, on right: 3
+    on left: 18 19 20 21, on right: 3
 ref (26)
-    on left: 20 21 22 23, on right: 5 16 17 18
+    on left: 22 23 24 25, on right: 7 18 19 20
 
 
 State 0
@@ -97,21 +99,21 @@ State 0
 
 State 1
 
-    4 exp: INTEGER_LITERAL .
+    6 exp: INTEGER_LITERAL .
 
-    $default  reduce using rule 4 (exp)
+    $default  reduce using rule 6 (exp)
 
 
 State 2
 
-   20 ref: REG .
+   22 ref: REG .
 
-    $default  reduce using rule 20 (ref)
+    $default  reduce using rule 22 (ref)
 
 
 State 3
 
-   15 exp: '(' . exp ')'
+   17 exp: '(' . exp ')'
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -128,7 +130,7 @@ State 3
 
 State 4
 
-   14 exp: MINUS . exp
+   16 exp: MINUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -145,7 +147,7 @@ State 4
 
 State 5
 
-   13 exp: NOT . exp
+   15 exp: NOT . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -162,28 +164,28 @@ State 5
 
 State 6
 
-   21 ref: ACC .
-
-    $default  reduce using rule 21 (ref)
-
-
-State 7
-
-   22 ref: TOP .
-
-    $default  reduce using rule 22 (ref)
-
-
-State 8
-
-   23 ref: SIZE .
+   23 ref: ACC .
 
     $default  reduce using rule 23 (ref)
 
 
+State 7
+
+   24 ref: TOP .
+
+    $default  reduce using rule 24 (ref)
+
+
+State 8
+
+   25 ref: SIZE .
+
+    $default  reduce using rule 25 (ref)
+
+
 State 9
 
-   18 cmd: PUSH . ref
+   20 cmd: PUSH . ref
 
     REG   shift, and go to state 2
     ACC   shift, and go to state 6
@@ -195,14 +197,14 @@ State 9
 
 State 10
 
-   19 cmd: POP . REG
+   21 cmd: POP . REG
 
     REG  shift, and go to state 21
 
 
 State 11
 
-   16 cmd: SHOW . ref
+   18 cmd: SHOW . ref
 
     REG   shift, and go to state 2
     ACC   shift, and go to state 6
@@ -214,7 +216,7 @@ State 11
 
 State 12
 
-   17 cmd: LOAD . ref REG
+   19 cmd: LOAD . ref REG
 
     REG   shift, and go to state 2
     ACC   shift, and go to state 6
@@ -234,21 +236,25 @@ State 13
 State 14
 
     2 input: exp .
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
+    4      | exp . '('
+    5      | exp . ')'
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
 
-    PLUS    shift, and go to state 25
-    MINUS   shift, and go to state 26
-    MULT    shift, and go to state 27
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
+    '('     shift, and go to state 25
+    ')'     shift, and go to state 26
+    PLUS    shift, and go to state 27
+    MINUS   shift, and go to state 28
+    MULT    shift, and go to state 29
+    DIVIDE  shift, and go to state 30
+    MOD     shift, and go to state 31
+    OR      shift, and go to state 32
+    AND     shift, and go to state 33
 
     $default  reduce using rule 2 (input)
 
@@ -262,92 +268,92 @@ State 15
 
 State 16
 
-    5 exp: ref .
+    7 exp: ref .
 
-    $default  reduce using rule 5 (exp)
+    $default  reduce using rule 7 (exp)
 
 
 State 17
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
-   15    | '(' exp . ')'
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
+   17    | '(' exp . ')'
 
-    ')'     shift, and go to state 32
-    PLUS    shift, and go to state 25
-    MINUS   shift, and go to state 26
-    MULT    shift, and go to state 27
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
+    ')'     shift, and go to state 34
+    PLUS    shift, and go to state 27
+    MINUS   shift, and go to state 28
+    MULT    shift, and go to state 29
+    DIVIDE  shift, and go to state 30
+    MOD     shift, and go to state 31
+    OR      shift, and go to state 32
+    AND     shift, and go to state 33
 
 
 State 18
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
-   14    | MINUS exp .
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
+   16    | MINUS exp .
 
-    MULT    shift, and go to state 27
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
+    MULT    shift, and go to state 29
+    DIVIDE  shift, and go to state 30
+    MOD     shift, and go to state 31
+    OR      shift, and go to state 32
+    AND     shift, and go to state 33
 
-    $default  reduce using rule 14 (exp)
+    $default  reduce using rule 16 (exp)
 
 
 State 19
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
-   13    | NOT exp .
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
+   15    | NOT exp .
 
-    $default  reduce using rule 13 (exp)
+    $default  reduce using rule 15 (exp)
 
 
 State 20
 
-   18 cmd: PUSH ref .
+   20 cmd: PUSH ref .
 
-    $default  reduce using rule 18 (cmd)
+    $default  reduce using rule 20 (cmd)
 
 
 State 21
 
-   19 cmd: POP REG .
+   21 cmd: POP REG .
 
-    $default  reduce using rule 19 (cmd)
+    $default  reduce using rule 21 (cmd)
 
 
 State 22
 
-   16 cmd: SHOW ref .
+   18 cmd: SHOW ref .
 
-    $default  reduce using rule 16 (cmd)
+    $default  reduce using rule 18 (cmd)
 
 
 State 23
 
-   17 cmd: LOAD ref . REG
+   19 cmd: LOAD ref . REG
 
-    REG  shift, and go to state 33
+    REG  shift, and go to state 35
 
 
 State 24
@@ -359,41 +365,21 @@ State 24
 
 State 25
 
-    7 exp: exp PLUS . exp
+    4 input: exp '(' .
 
-    INTEGER_LITERAL  shift, and go to state 1
-    REG              shift, and go to state 2
-    '('              shift, and go to state 3
-    MINUS            shift, and go to state 4
-    NOT              shift, and go to state 5
-    ACC              shift, and go to state 6
-    TOP              shift, and go to state 7
-    SIZE             shift, and go to state 8
-
-    exp  go to state 34
-    ref  go to state 16
+    $default  reduce using rule 4 (input)
 
 
 State 26
 
-    6 exp: exp MINUS . exp
+    5 input: exp ')' .
 
-    INTEGER_LITERAL  shift, and go to state 1
-    REG              shift, and go to state 2
-    '('              shift, and go to state 3
-    MINUS            shift, and go to state 4
-    NOT              shift, and go to state 5
-    ACC              shift, and go to state 6
-    TOP              shift, and go to state 7
-    SIZE             shift, and go to state 8
-
-    exp  go to state 35
-    ref  go to state 16
+    $default  reduce using rule 5 (input)
 
 
 State 27
 
-    8 exp: exp MULT . exp
+    9 exp: exp PLUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -410,7 +396,7 @@ State 27
 
 State 28
 
-    9 exp: exp DIVIDE . exp
+    8 exp: exp MINUS . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -427,7 +413,7 @@ State 28
 
 State 29
 
-   10 exp: exp MOD . exp
+   10 exp: exp MULT . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -444,7 +430,7 @@ State 29
 
 State 30
 
-   11 exp: exp OR . exp
+   11 exp: exp DIVIDE . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -461,7 +447,7 @@ State 30
 
 State 31
 
-   12 exp: exp AND . exp
+   12 exp: exp MOD . exp
 
     INTEGER_LITERAL  shift, and go to state 1
     REG              shift, and go to state 2
@@ -478,137 +464,171 @@ State 31
 
 State 32
 
-   15 exp: '(' exp ')' .
+   13 exp: exp OR . exp
 
-    $default  reduce using rule 15 (exp)
+    INTEGER_LITERAL  shift, and go to state 1
+    REG              shift, and go to state 2
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
+
+    exp  go to state 41
+    ref  go to state 16
 
 
 State 33
 
-   17 cmd: LOAD ref REG .
+   14 exp: exp AND . exp
 
-    $default  reduce using rule 17 (cmd)
+    INTEGER_LITERAL  shift, and go to state 1
+    REG              shift, and go to state 2
+    '('              shift, and go to state 3
+    MINUS            shift, and go to state 4
+    NOT              shift, and go to state 5
+    ACC              shift, and go to state 6
+    TOP              shift, and go to state 7
+    SIZE             shift, and go to state 8
+
+    exp  go to state 42
+    ref  go to state 16
 
 
 State 34
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    7    | exp PLUS exp .
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
+   17 exp: '(' exp ')' .
 
-    MULT    shift, and go to state 27
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
-
-    $default  reduce using rule 7 (exp)
+    $default  reduce using rule 17 (exp)
 
 
 State 35
 
-    6 exp: exp . MINUS exp
-    6    | exp MINUS exp .
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
+   19 cmd: LOAD ref REG .
 
-    MULT    shift, and go to state 27
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
-
-    $default  reduce using rule 6 (exp)
+    $default  reduce using rule 19 (cmd)
 
 
 State 36
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    8    | exp MULT exp .
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+    9    | exp PLUS exp .
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
 
-    DIVIDE  shift, and go to state 28
-    MOD     shift, and go to state 29
-    OR      shift, and go to state 30
-    AND     shift, and go to state 31
-
-    $default  reduce using rule 8 (exp)
-
-
-State 37
-
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-    9    | exp DIVIDE exp .
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
-
-    MOD  shift, and go to state 29
-    OR   shift, and go to state 30
-    AND  shift, and go to state 31
+    MULT    shift, and go to state 29
+    DIVIDE  shift, and go to state 30
+    MOD     shift, and go to state 31
+    OR      shift, and go to state 32
+    AND     shift, and go to state 33
 
     $default  reduce using rule 9 (exp)
 
 
+State 37
+
+    8 exp: exp . MINUS exp
+    8    | exp MINUS exp .
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
+
+    MULT    shift, and go to state 29
+    DIVIDE  shift, and go to state 30
+    MOD     shift, and go to state 31
+    OR      shift, and go to state 32
+    AND     shift, and go to state 33
+
+    $default  reduce using rule 8 (exp)
+
+
 State 38
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   10    | exp MOD exp .
-   11    | exp . OR exp
-   12    | exp . AND exp
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   10    | exp MULT exp .
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
 
-    OR   shift, and go to state 30
-    AND  shift, and go to state 31
+    DIVIDE  shift, and go to state 30
+    MOD     shift, and go to state 31
+    OR      shift, and go to state 32
+    AND     shift, and go to state 33
 
     $default  reduce using rule 10 (exp)
 
 
 State 39
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   11    | exp OR exp .
-   12    | exp . AND exp
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   11    | exp DIVIDE exp .
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
 
-    AND  shift, and go to state 31
+    MOD  shift, and go to state 31
+    OR   shift, and go to state 32
+    AND  shift, and go to state 33
 
     $default  reduce using rule 11 (exp)
 
 
 State 40
 
-    6 exp: exp . MINUS exp
-    7    | exp . PLUS exp
-    8    | exp . MULT exp
-    9    | exp . DIVIDE exp
-   10    | exp . MOD exp
-   11    | exp . OR exp
-   12    | exp . AND exp
-   12    | exp AND exp .
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   12    | exp MOD exp .
+   13    | exp . OR exp
+   14    | exp . AND exp
+
+    OR   shift, and go to state 32
+    AND  shift, and go to state 33
 
     $default  reduce using rule 12 (exp)
+
+
+State 41
+
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   13    | exp OR exp .
+   14    | exp . AND exp
+
+    AND  shift, and go to state 33
+
+    $default  reduce using rule 13 (exp)
+
+
+State 42
+
+    8 exp: exp . MINUS exp
+    9    | exp . PLUS exp
+   10    | exp . MULT exp
+   11    | exp . DIVIDE exp
+   12    | exp . MOD exp
+   13    | exp . OR exp
+   14    | exp . AND exp
+   14    | exp AND exp .
+
+    $default  reduce using rule 14 (exp)

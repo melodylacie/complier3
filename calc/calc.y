@@ -61,15 +61,16 @@ bool calErr	= false;
 
 input:		
 		| exp 	{ if(!calErr)
-					{
-					 cout << "Result: " << $1 << endl; 
-					 acc = $1;
-					 calErr = false;
-					}					 
-				  else
-					calErr = false;
-				}
-		| cmd 	{;}
+						{
+						 cout << "Result: " << $1 << endl; 
+						 acc = $1;
+						}					 
+					  else
+						calErr = false;
+					}
+		| cmd	{;}
+		| exp '('	{cerr << "ERROR: Unbalance Parenthesis" << endl; }
+		| exp ')'	{cerr << "ERROR: Unbalance Parenthesis" << endl; }
 		
 		;
 		

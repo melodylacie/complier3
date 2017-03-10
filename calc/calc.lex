@@ -47,7 +47,7 @@ $r[A-Z]			{ yylval.int_val = (regToInt(yytext)); return REG ; }
 "LOAD"			{ yylval.op_val = new std::string(yytext); return LOAD ; }
 
 [ \t]*		{}
-[\n]		{ return NULL ;}
+[\n]			{ return NULL ;}
 
 
 .		{ std::cerr << "SCANNER "; yyerror(yytext); 	}
