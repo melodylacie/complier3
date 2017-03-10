@@ -60,12 +60,8 @@ bool synErr = false;
 %%
 
 input:		
-		| exp 	{ cout << "Result: " << $1 << endl; acc = $1;
-
-					}
+		| exp 	{ cout << "Result: " << $1 << endl; acc = $1; }
 		| cmd	{;}
-		| exp '('	{cerr << "ERROR: syntax error" << endl; }
-		| exp ')'	{cerr << "ERROR: syntax error" << endl; }
 		
 		;
 		
