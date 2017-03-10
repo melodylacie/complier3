@@ -56,12 +56,13 @@ bool calErr	= false;
 %left PUSH  
 %left POP  
 %left SHOW  
-%left LOAD  
+%left LOAD
+%left NULL  
 
 %%
 
 input:		
-		| exp	{ if(!calErr)
+		| exp NULL	{ if(!calErr)
 					{
 					 cout << "Result: " << $1 << endl; 
 					 acc = $1;
@@ -69,7 +70,7 @@ input:
 				  else
 					calErr = false;
 				}
-		| cmd	{;}
+		| cmd NULL	{;}
 		
 		;
 		
