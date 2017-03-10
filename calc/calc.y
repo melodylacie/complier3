@@ -36,7 +36,7 @@ bool synErr = false;
 
  
 %token	<int_val>	INTEGER_LITERAL REG '(' ')'
-%type	<int_val>	exp cmd ref
+%type	<int_val>	exp cmd ref write
 
  
 
@@ -97,7 +97,7 @@ cmd:	SHOW ref			{ 	if(!topErr)
 								}
 							}
 									
-		|LOAD ref REG		{ 	if(!topErr)
+		|LOAD ref write		{ 	if(!topErr)
 								{
 									regArray[$3] = $2;  
 								}else{
@@ -113,7 +113,7 @@ cmd:	SHOW ref			{ 	if(!topErr)
 									topErr = false;
 								}
 							}
-		|POP REG			{ pop($2); }
+		|POP write			{ pop($2); }
 		
 		
 		;
@@ -127,7 +127,10 @@ ref:	REG					{ $$ = regArray[$1]; }
 							}
 		|SIZE				{ $$ = size; }
 		;
-
+		
+write:	REG					{ $$ = regArray[$1]; }
+		|ACC				{ $$ = acc; }
+		;
 %%
 
 int xtoi(char *hexstring)
