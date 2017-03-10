@@ -22,7 +22,7 @@ int size = 0;
 
 /*-------------ERROR FLAG-------------*/
 bool topErr = false;
-bool calErr	= false;
+bool synErr = false;
 
  
 %}
@@ -60,13 +60,8 @@ bool calErr	= false;
 %%
 
 input:		
-		| exp 	{ if(!calErr)
-						{
-						 cout << "Result: " << $1 << endl; 
-						 acc = $1;
-						}					 
-					  else
-						calErr = false;
+		| exp 	{ cout << "Result: " << $1 << endl; acc = $1;
+
 					}
 		| cmd	{;}
 		| exp '('	{cerr << "ERROR: syntax error" << endl; }
@@ -160,13 +155,12 @@ int yyerror(string s)
   extern char *yytext;	// defined and maintained in lex.c
   
   cerr << "ERROR: " << s << endl;
-  calErr = true;
+  synErr = true;
   return 0;
 }
 
 int yyerror(char *s)
 {
-  calErr = true;
   return yyerror(string(s));
 }
 
