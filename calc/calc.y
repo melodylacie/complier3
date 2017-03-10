@@ -69,8 +69,8 @@ input:
 						calErr = false;
 					}
 		| cmd	{;}
-		| exp '('	{cerr << "ERROR: Unbalance Parenthesis" << endl; }
-		| exp ')'	{cerr << "ERROR: Unbalance Parenthesis" << endl; }
+		| exp '('	{cerr << "ERROR: syntax error" << endl; }
+		| exp ')'	{cerr << "ERROR: syntax error" << endl; }
 		
 		;
 		
