@@ -1,6 +1,3 @@
-/* Mini Calculator */
-/* calc.y */
-
 %{
 #include "heading.h"
 int yyerror(char *s);
@@ -9,11 +6,13 @@ int xtoi(char *hexstring);
 void push(int value);
 void pop(int index);
  
+ /*-------------REG STRUCTURE-------------*/
 int regToInt(char *reg);
 
 int regArray[26] = {0};
 int acc = 0;
 
+ /*-------------STACK STRUCTURE-------------*/
 struct stack {
     struct stack *prev;
     int     value;
@@ -122,22 +121,9 @@ ref:	REG					{ $$ = regArray[$1]; }
 
 %%
 
-/*
-**	Copyright (c) Leigh Brasington 2012.  All rights reserved.
-**	This code may be used and reproduced without written permission.
-**
-**	 C/C++ function to convert an ANSI hexadecimal string to an int
-**
-**	Keywords: Convert hexadecimal string int C/C++
-*/
-
 int xtoi(char *hexstring)
 {
 	int	i = 0;
-	/*
-	if ((*hexstring == '0') && (*(hexstring+1) == 'x'))
-		  hexstring += 2;
-	*/
 	while (*(hexstring+1)) // ignore prelast = 'h|H'
 	{
 		char c = toupper(*hexstring++);
